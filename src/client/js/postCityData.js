@@ -1,7 +1,10 @@
-export async function postData(url, city, date) {
+export async function postData(url, objectData) {
   const object = {
-    city: city,
-    date: date
+    city: objectData.city,
+    date: objectData.date,
+    latitude: objectData.lat,
+    longitude: objectData.lon,
+    country: objectData.country
   };
   const result = await fetch(url, {
     method: "POST",

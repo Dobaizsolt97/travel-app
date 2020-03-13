@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+
 //defining the port
 const port = 8080;
 let travelData = {
@@ -30,8 +31,11 @@ app.get("/travel-info", (req, res) => {
 });
 
 app.post("/travel-info", (req, res) => {
-  const { city, date } = req.body;
+  const { city, date, country, latitude, longitude } = req.body;
   travelData.city = city;
   travelData.date = date;
+  travelData.country = country;
+  travelData.latitude = latitude;
+  travelData.longitude = longitude;
   res.send("added");
 });
