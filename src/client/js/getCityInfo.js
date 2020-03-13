@@ -13,6 +13,5 @@ export async function getCityInfo(city, date) {
     lon: parsed.geonames[0].lng,
     lat: parsed.geonames[0].lat
   };
-  console.log(objectData);
   postData("http://localhost:8080/travel-info", objectData);
 }

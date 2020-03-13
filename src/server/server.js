@@ -9,7 +9,8 @@ let travelData = {
   date: "",
   latitude: "",
   longitude: "",
-  country: ""
+  country: "",
+  when: ""
 };
 
 //initializing an instance of our app
@@ -38,4 +39,7 @@ app.post("/travel-info", (req, res) => {
   travelData.latitude = latitude;
   travelData.longitude = longitude;
   res.send("added");
+});
+app.post("/travel-info-date", (req, res) => {
+  travelData.when = req.body.when;
 });
