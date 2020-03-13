@@ -17,7 +17,7 @@ export function timeInterval(date) {
     let time = "this week";
     postWhen("http://localhost:8080/travel-info-date", time);
   } else {
-    let time = (unixTimestampfuture - unixTimestampnow) / 86400;
+    let time = unixTimestampfuture;
     postWhen("http://localhost:8080/travel-info-date", time);
   }
 }
