@@ -24,6 +24,7 @@
   }
   & > .right-div {
     background-color: #e5bace;
+    flex-direction: column;
   }
   & > .left-div {
     display: flex;
@@ -54,9 +55,21 @@
   background-color: #eeeeee;
   & > .left-div,
   & > .right-div {
-    width: 50vw;
+    width: 50%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+  }
+}
+.image-holder {
+  width: 90%;
+  height: 60%;
+  background-position: center;
+  background-size: cover;
+
+  & > img {
+    height: 100%;
+    width: 100%;
+    transition: all 1s ease-in-out;
   }
 }
