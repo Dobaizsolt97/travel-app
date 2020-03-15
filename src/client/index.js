@@ -2,6 +2,7 @@ import "./styles/base.scss";
 import { getCityInfo } from "./js/getCityInfo";
 import { timeInterval } from "./js/timeInterval";
 import fetch from "node-fetch";
+import { objectData } from "./js/getCityInfo";
 
 const submitBtn = document.getElementById("submit");
 const destination = document.getElementById("destination");
@@ -21,7 +22,7 @@ submitBtn.addEventListener("click", event => {
 async function retriveData() {
   const data = await fetch("http://localhost:8080/travel-info");
   const info = await data.json();
-  setTimeout(updateUi(info), 400);
+  setTimeout(updateUi(info), 450);
 }
 
 function updateUi(information) {
