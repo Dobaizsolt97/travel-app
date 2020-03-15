@@ -1,5 +1,3 @@
-import { postWhen } from "./postWhen";
-
 export function timeInterval(date) {
   let d = new Date();
   let month = d.getMonth() + 1;
@@ -14,10 +12,8 @@ export function timeInterval(date) {
   let unixTimestampnow = (new Date(`${currDate}`).getTime() / 1000).toFixed(0);
   let unixTimestampfuture = (new Date(`${date}`).getTime() / 1000).toFixed(0);
   if (unixTimestampfuture - unixTimestampnow <= 604800) {
-    let time = "this week";
-    postWhen("http://localhost:8080/travel-info-date", time);
+    return true;
   } else {
-    let time = unixTimestampfuture;
-    postWhen("http://localhost:8080/travel-info-date", time);
+    return false;
   }
 }

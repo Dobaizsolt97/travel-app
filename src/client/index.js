@@ -1,8 +1,7 @@
 import "./styles/base.scss";
 import { getCityInfo } from "./js/getCityInfo";
-import { timeInterval } from "./js/timeInterval";
+
 import fetch from "node-fetch";
-import { objectData } from "./js/getCityInfo";
 
 const submitBtn = document.getElementById("submit");
 const destination = document.getElementById("destination");
@@ -15,14 +14,13 @@ submitBtn.addEventListener("click", event => {
   const date = document.getElementById("date").value;
   if (city && date) {
     getCityInfo(city, date);
-    timeInterval(date);
-    setTimeout(retriveData, 900);
+    setTimeout(retriveData, 1300);
   }
 });
 async function retriveData() {
   const data = await fetch("http://localhost:8080/travel-info");
   const info = await data.json();
-  setTimeout(updateUi(info), 450);
+  updateUi(info);
 }
 
 function updateUi(information) {

@@ -3,7 +3,7 @@ dotenv.config();
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const request = require("request");
+
 const fetch = require("node-fetch");
 const pixabayBase = "https://pixabay.com/api/?key=";
 
@@ -48,7 +48,8 @@ app.post("/travel-info", (req, res) => {
   travelData.country = country;
   travelData.latitude = latitude;
   travelData.longitude = longitude;
-  getWeather(latitude, longitude, travelData.when);
+
+  getWeather(latitude, longitude, date);
   getImage(city, country);
   res.send(travelData);
 });
@@ -56,8 +57,8 @@ app.post("/travel-info-date", (req, res) => {
   travelData.when = req.body.when;
 });
 
-async function getWeather(latitude, longitude, when) {
-  if (when == "this week") {
+async function getWeather(latitude, longitude, date) {
+  if (timeInterval(date)) {
     const data = await fetch(
       `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${latitude},${longitude}`
     );
@@ -72,10 +73,16 @@ async function getWeather(latitude, longitude, when) {
     };
   } else {
     const data = await fetch(
-      `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${latitude},${longitude},${when}`
+      `https://api.darksky.net/forecast/${
+        process.env.DARK_SKY_KEY
+      }/${latitude},${longitude},${(
+        new Date(`${date}`).getTime() / 1000
+      ).toFixed(0)}`
     );
     const response = await data.json();
+    console.log(response.daily.summary);
     const relevantData = response.daily.data[0];
+
     const { temperatureLow, temperatureHigh, summary } = relevantData;
     travelData.response = {
       low: `${((temperatureLow - 32) / 1.8).toFixed(1)} celsius`,
@@ -98,7 +105,30 @@ async function getImage(city) {
     };
   } else {
     travelData.image = {
-      imageLink: "not found"
+      imageLink:
+        "https://pixabay.com/get/57e8d5444e5aaa14f6da8c7dda79367b1036dce353566c4870277fd69e48cc5eb8_640.jpg"
     };
+  }
+}
+
+function timeInterval(date) {
+  let d = new Date();
+  let month = d.getMonth() + 1;
+  let day = d.getDate();
+  if (month < 10) {
+    month = `0${month}`;
+  }
+  if (day < 10) {
+    day = `0${day}`;
+  }
+  let currDate = d.getFullYear() + "-" + month + "-" + day;
+  let unixTimestampnow = (new Date(`${currDate}`).getTime() / 1000).toFixed(0);
+  let unixTimestampfuture = (new Date(`${date}`).getTime() / 1000).toFixed(0);
+  travelData.when = `in ${(unixTimestampfuture - unixTimestampnow) /
+    86400} days`;
+  if (unixTimestampfuture - unixTimestampnow <= 604800) {
+    return true;
+  } else {
+    return false;
   }
 }
